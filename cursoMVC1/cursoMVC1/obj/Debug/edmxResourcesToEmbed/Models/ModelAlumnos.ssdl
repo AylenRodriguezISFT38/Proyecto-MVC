@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AlumnosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Alumno">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombres" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="apellidos" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="edad" Type="int" Nullable="false" />
+    <Property Name="sexo" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="fechaRegistro" Type="datetime" Nullable="false" />
+    <Property Name="codCiudad" Type="int" />
+  </EntityType>
+  <EntityType Name="Ciudad">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="cstate">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+    <Property Name="idState" Type="int" />
+    <Property Name="edad" Type="int" />
+  </EntityType>
+  <Association Name="FK_Alumno_Ciudad">
+    <End Role="Ciudad" Type="Self.Ciudad" Multiplicity="0..1" />
+    <End Role="Alumno" Type="Self.Alumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ciudad">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Alumno">
+        <PropertyRef Name="codCiudad" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_user_cstate">
+    <End Role="cstate" Type="Self.cstate" Multiplicity="0..1" />
+    <End Role="user" Type="Self.user" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cstate">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="user">
+        <PropertyRef Name="idState" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AlumnosDBModelStoreContainer">
+    <EntitySet Name="Alumno" EntityType="Self.Alumno" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Ciudad" EntityType="Self.Ciudad" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cstate" EntityType="Self.cstate" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Alumno_Ciudad" Association="Self.FK_Alumno_Ciudad">
+      <End Role="Ciudad" EntitySet="Ciudad" />
+      <End Role="Alumno" EntitySet="Alumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_cstate" Association="Self.FK_user_cstate">
+      <End Role="cstate" EntitySet="cstate" />
+      <End Role="user" EntitySet="user" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

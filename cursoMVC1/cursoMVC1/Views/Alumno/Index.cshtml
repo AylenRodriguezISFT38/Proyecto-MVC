@@ -1,0 +1,82 @@
+﻿@model IEnumerable<cursoMVC1.Models.AlumnoCE>
+
+@{
+    ViewBag.Title = "Lista de alumnos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2 class="text-center text-primary">Alumnos isft38</h2>
+@Html.ValidationSummary()
+
+<p>
+  
+    <input type="button" class="btn btn-primary" value="Crear nuevo" onclick="document.location.href='@Url.Content("~/Alumno/Agregar")'" />
+</p>
+<table class="table table-bordered">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.id)</th>
+        <th>Nombre completo</th>
+        <th >Edad</th>
+        <th>Sexo</th>
+        <th>Ciudad</th>
+        <th>Fecha de alta</th>
+        <th>Editar</th>
+
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.nombreCompleto)
+        </td> 
+        <td>
+            @Html.DisplayFor(modelItem => item.edad)
+            
+          
+         
+        </td>
+        <td>
+            @{  
+                if (item.sexo == "m" || item.sexo == "M")
+                {
+                    <span>Masculino</span>
+                }
+                else
+                {
+                    <span>Femenino</span>
+                }
+            }
+        </td>
+        <td>
+            @item.nombreCiudad
+
+        </td>
+        <td>
+            @item.fechaRegistro.ToShortDateString()
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Editar", new { id = item.id }, new { @class = "btn btn-default" }) 
+            @Html.ActionLink("Detalles", "DetallesAlumnos", new { id = item.id }, new { @class = " btn btn-primary" }) 
+            @Html.ActionLink("Eliminar", "Eliminar", new { id = item.id }, new { @class = "Elimina btn btn-danger"})
+        </td>
+    </tr>
+}
+
+</table>
+
+@section scripts{
+    <script>
+        $(".Elimina").click(function (event) {
+                            if (!confirm("Estas seguro que deseas eliminar este dato?")) {
+                                event.preventDefault();
+            }
+            
+                });
+    </script>
+}
